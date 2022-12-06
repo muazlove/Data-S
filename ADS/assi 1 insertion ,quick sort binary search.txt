@@ -1,0 +1,159 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int
+binarySearch (int arr[], int x, int low, int high)
+{
+
+  while (low <= high)
+    {
+      int mid = low + (high - low) / 2;
+
+      if (arr[mid] == x)
+	return mid;
+
+      if (arr[mid] < x)
+	low = mid + 1;
+
+      else
+	high = mid - 1;
+    }
+
+  return -1;
+}
+
+
+void
+insertionSort (int arr[], int n)
+{
+  int i, j, temp;
+  for (i = 1; i < n; i++)
+    {
+      temp = arr[i];
+      j = i - 1;
+
+      while (j >= 0 && temp <= arr[j])
+	{
+	  arr[j + 1] = arr[j];
+	  j = j - 1;
+	}
+      arr[j + 1] = temp;
+    }
+}
+
+void
+swap (int *a, int *b)
+{
+  int t = *a;
+  *a = *b;
+  *b = t;
+}
+
+int
+partition (int arr[], int low, int high)
+{
+
+  int pivot = arr[high];
+
+
+  int i = (low - 1);
+
+  for (int j = low; j < high; j++)
+    {
+      if (arr[j] <= pivot)
+	{
+	  i++;
+	  swap (&arr[i], &arr[j]);
+	}
+    }
+
+  swap (&arr[i + 1], &arr[high]);
+  return (i + 1);
+}
+
+void
+quickSort (int arr[], int low, int high)
+{
+  if (low < high)
+    {
+      int pi = partition (arr, low, high);
+      quickSort (arr, low, pi - 1);
+      quickSort (arr, pi + 1, high);
+    }
+}
+
+void
+print (int arr[], int n)
+{
+  for (int i = 0; i < n; i++)
+    {
+      printf ("%d ", arr[i]);
+    }
+}
+
+int
+main ()
+{
+  int choice, n, search_num;
+  while (1)
+    {
+      printf ("\n\nchoose one?\n");
+      printf
+	("\n 1.Insertion Sort\n 2.Quick Sort\n 3.Binary Search\n 4.exit\n");
+      printf ("Enter your selection:");
+      scanf ("%d", &choice);
+      if (choice == 0 || choice > 4)
+	{
+	  printf ("\nPlease enter correct choice!");
+	  continue;
+	}
+      if (choice == 4)
+	{
+	  exit (0);
+	}
+
+      printf ("\nEnter the size of the array:");
+      scanf ("%d", &n);
+      int arr[n];
+      printf ("Enter %d elements of the array:\n", n);
+
+      for (int i = 0; i < n; i++)
+	{
+	  scanf ("%d", &arr[i]);
+	}
+      switch (choice)
+	{
+	case 1:
+	  printf ("You Selected Insertion Sort :\n");
+	  printf ("Elements before sorting are :");
+	  print (arr, n);
+	  insertionSort (arr, n);
+	  printf ("\nElements after sorting are :");
+	  print (arr, n);
+	  break;
+
+	case 2:
+	  printf ("You Selected Quick Sort :\n");
+	  printf ("Elements before sorting are :");
+	  print (arr, n);
+	  quickSort (arr, 0, n - 1);
+	  printf ("\nElements after sorting are :");
+	  print (arr, n);
+	  break;
+
+	case 3:
+	  printf ("You Selected Binary Search:\n");
+	  printf ("Which number you want to search for? ");
+	  scanf ("%d", &search_num);
+	  insertionSort (arr, n);
+	  int result = binarySearch (arr, search_num, 0, n - 1);
+	  result ==
+	    -1 ? printf ("Element not found in the array") :
+	    printf ("Element '%d'found at index %d", search_num, result);
+	  break;
+	}
+    }
+
+  return 0;
+}
+

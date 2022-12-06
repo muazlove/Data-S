@@ -1,0 +1,52 @@
+#include<stdio.h>
+#define min(a,b) a<b?a:b
+int main()
+{
+    int n, array[20],x,i,a,b,c,offset;
+    printf("\n  ENTER NO. OF ELEMENTS -  ");
+    scanf("%d", &n);
+    printf("\n  ENTER THE ELEMENTS IN ASSENDING ORDER - ");
+    for(i=0;i<n;i++)
+    scanf("%d", &array[i]);
+    printf("    ENTER ELEMENT TO SEARCH - ");
+    scanf("%d", &x);
+    a=0;
+    b=1;
+    c=a+b;
+    while(c<n)
+    {
+        a=b;
+        b=c;
+        c=a+b;
+    }
+    offset = -1;
+
+    while(c>1)
+    {
+        i=min(offset+b,n-1);
+        if (array[i] <x)
+        {
+            c=b;
+            b=a;
+            a=c-b;
+            offset=i;
+        }
+
+        else if (array[i] >x)
+        {
+            c=a;
+            b=b-a;
+            a=c-b;
+        }
+        else
+        {
+            printf("the number is found at index %d",i);
+            return 0;
+
+        }
+
+    }
+    printf("the number is not found");
+    return 0;
+
+}
